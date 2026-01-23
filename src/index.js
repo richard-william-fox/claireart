@@ -8,14 +8,14 @@ const publicDir = path.join(__dirname, '../public')
 const viewsPath = path.join(__dirname, '../templates/views')
 const partialsPath = path.join(__dirname, '../templates/partials')
 
-//const navRouter = require('./routers/nav')
+const picRouter = require('./routers/pic')
 
 const port = process.env.PORT || 8082
 
 const app = express()
 const server = http.createServer(app)
 
-//app.use(navRouter)
+app.use('pics', picRouter)
 
 // Setup handlebars engine and views location
 app.set('view engine', 'hbs')
