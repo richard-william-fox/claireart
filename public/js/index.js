@@ -3,28 +3,39 @@ var userId = null
 /*const sheets = document.querySelector('#allSheets')
 const errorsNode = document.querySelector('#errorMessages')
 const sheetStatus = document.querySelector('#sheetStatus')*/
+const previewContent = document.querySelector('#previewContent')
+const toteCount = document.querySelector('#toteCount')
 
 win.addEventListener('load', async (event) => {
-    //Pull in currently existing player characters
-    /*const allUrl = '/user/all'
-    const allResp = await fetch(allUrl)
-    const allData = await allResp.json()*/
-    const allUrl = '/pics/all/'
+    //Pull in all files #TODO change this to five random images
+    const allUrl = '/images/all'
     const allResp = await fetch(allUrl)
     const allData = await allResp.json()
 
     allData.forEach((data) => {
-        /*const linkNode = document.createElement('a')
-        linkNode.className = 'link_' + data.username
-        linkNode.innerHTML = data.characterName
-        linkNode.href = '/saldere/genericChar?' + data._id
-        const breakNode = document.createElement('br')
+        var linkNode = document.createElement('a')
+        linkNode.id = 'linkPic_' + data._id
+        linkNode.target = '_blank'
+        linkNode.href = "/picsDetail/" + data._id
 
-        sheets.appendChild(linkNode)
-        sheets.appendChild(breakNode)*/
+        var imgNode = document.createElement('img')
+        imgNode.id = 'pic_' + data._id
+        imgNode.className = 'loader'
+        imgNode.src = data.path
 
-        console.log('pics data:')
-        console.log(data)
+        linkNode.appendChild(imgNode)
+        previewContent.appendChild(linkNode)
     })
+
+    var count = 0
+    var totePics = JSON.parse(localStorage.getItem('totePics'))
+    if (!totePics) {
+        localStorage.setItem('totePics', JSON.stringify([]))
+        count = 0
+    } else {
+        count = totePics.length
+    }
+
+    toteCount.innerHTML = 'View Tote: ' + count
 
 })

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html>
+    Site is currently undergoing maintenance TEST.
+    {{>header}}
+    <body>
+        {{>banner}}
+        <div id='detailContent'>
+            <div id='imageContent'>
+            </div>
+            <div id='imageDetails'>
+                <p id='imageName'>Name:</p>
+                <p id='imageWidth'>Width:</p>
+                <p id='imageHeight'>Height:</p>
+                <p id='imagePrice'>Price:</p>
+            </div>
+            <div id='detailButtons' class='rounded-md shadow'>
+                <button type='button' id='addToTote' class='focus:outline-none w-32 py-2 rounded-md font-semibold text-white bg-emerald-500 focus:outline-none'>Add item to Tote</button>
+                <br /><br />
+                <button type='button' id='buyNow' class='focus:outline-none focus:ring-4 focus:ring-green-500 focus:ring-opacity-50'>Purchase now</button>
+            </div>
+        </div>
+        <div id='footer'>
+            This will contain links and crap.
+            {{>footer}}
+        </div>
+        <script src='/js/picsDetail.js'></script>
+    </body>
+</html>

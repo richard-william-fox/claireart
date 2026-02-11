@@ -16,7 +16,13 @@ const PicSchema = mongoose.Schema({
     path: {
         type: String,
         required: true
-  },
+    },
+    width: {
+        type: Number
+    },
+    height: {
+        type: Number
+    },
 })
 
 const Pic = mongoose.model('Pic', PicSchema)
