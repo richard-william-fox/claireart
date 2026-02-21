@@ -7,6 +7,8 @@ const imgHeightP = document.querySelector('#imageHeight')
 const imgPriceP = document.querySelector('#imagePrice')
 const toteCount = document.querySelector('#toteCount')
 const toteButton = document.querySelector('#addToTote')
+const buyButton = document.querySelector('#buyNow')
+const toteStatus = document.querySelector('#toteStatus')
 var imageId
 var totePics
 
@@ -42,5 +44,14 @@ toteButton.addEventListener('click', (event) => {
     totePics.push(imageId)
     localStorage.setItem('totePics', JSON.stringify(totePics))
 
+    toteStatus.innerHTML = 'Item added to tote.'
+    toteButton.disabled = true
     toteCount.innerHTML = 'View Tote: ' + totePics.length
+})
+
+buyButton.addEventListener('click', (event) => {
+    totePics.push(imageId)
+    localStorage.setItem('totePics', JSON.stringify(totePics))
+
+    window.location.replace('http://staging.tabletopsupercrew.net/checkout')
 })

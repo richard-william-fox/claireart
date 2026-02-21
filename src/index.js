@@ -1,5 +1,6 @@
 const path = require('path')
 const express = require('express')
+const bodyParser = require("body-parser")
 const hbs = require('hbs')
 const http = require('http')
 require('./db/mongoose')
@@ -17,6 +18,7 @@ const port = process.env.PORT || 8082
 const app = express()
 const server = http.createServer(app)
 
+app.use(bodyParser.json())
 app.use(navRouter)
 app.use('/images', picRouter)
 

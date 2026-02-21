@@ -8,7 +8,7 @@ const toteCount = document.querySelector('#toteCount')
 
 win.addEventListener('load', async (event) => {
     //Pull in all files #TODO change this to five random images
-    const allUrl = '/images/all'
+    const allUrl = '/images/indexPics'
     const allResp = await fetch(allUrl)
     const allData = await allResp.json()
 
@@ -22,6 +22,8 @@ win.addEventListener('load', async (event) => {
         imgNode.id = 'pic_' + data._id
         imgNode.className = 'loader'
         imgNode.src = data.path
+        imgNode.width = '100px'
+        imgNode.height = '100px'
 
         linkNode.appendChild(imgNode)
         previewContent.appendChild(linkNode)

@@ -23,6 +23,9 @@ const PicSchema = mongoose.Schema({
     height: {
         type: Number
     },
+    type: {
+        type: String
+    }
 })
 
 const Pic = mongoose.model('Pic', PicSchema)

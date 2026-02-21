@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 #headerImg{
     width: auto;
@@ -13,10 +13,25 @@
     border: solid;
     padding-top: 5px;
     padding-left: 5px;
+    display: inline-flex;
+    justify-content: space-between;
+    width: 50%;
+    margin-left: 25%;
 }
 
 #previewContent img {
     border: solid;
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100px;
+    height: 100px;
+}
+
+#checkoutContent img {
+    border: solid;
+    width: 100px;
+    height: 100px;
     margin-left: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -75,4 +90,18 @@ div[class*="imgP_"] {
 
 .removeLink {
     margin-left: 10px;
+}
+
+.cfButton:active {
+    background: #6496b0;
+    -webkit-box-shadow: inset 0px 0px 20px #6496b0;
+    -moz-box-shadow: inset 0px 0px 5px #6496b0;
+    box-shadow: inset 0px 0px 5px #6496b0;
+}
+
+.cfButton:disabled,
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
 }

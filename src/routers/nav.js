@@ -62,4 +62,12 @@ router.get('/viewTote', (req, res) => {
     })
 })
 
+router.get('/checkout', (req, res) => {
+    res.render('checkout', {
+        header: 'Claire\'s Awesome Site',
+        name: 'Claire\'s Awesome Site',
+        title: 'Claire\'s Awesome Site'
+    })
+})
+
 module.exports = router
