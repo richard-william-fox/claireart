@@ -11,17 +11,18 @@
 
 #previewContent {
     border: solid;
-    padding-top: 5px;
     padding-left: 5px;
+    padding-right: 5px;
     display: inline-flex;
     justify-content: space-between;
-    width: 50%;
-    margin-left: 25%;
+    width: 75%;
+    margin-left: 12.5%;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 #previewContent img {
     border: solid;
-    margin-left: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
     width: 100px;
@@ -39,7 +40,6 @@
 
 #footer {
     border: solid;
-    margin-top: 10px;
 }
 
 #imageDetails {
@@ -68,7 +68,18 @@
 }
 
 #viewTote {
-    padding-left:90%;
+    padding-left:130%;
+    display: inline-flex;
+    line-height: 2;
+}
+
+#viewTote img {
+    height: 37px;
+    margin-right: 10px;
+}
+
+.noWrapText {
+    white-space: nowrap;
 }
 
 #viewTote p {
@@ -104,4 +115,12 @@ button[disabled]{
   border: 1px solid #999999;
   background-color: #cccccc;
   color: #666666;
+}
+
+#navBanner {
+    width: 100%;
+}
+
+.cfText {
+    color: green;
 }

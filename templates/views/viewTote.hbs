@@ -3,9 +3,9 @@
 <html>
     Site is currently undergoing maintenance TEST.
     {{>header}}
-    <body>
+    <body class='bg-gray-700'>
         {{>banner}}
-        <div id='previewContent'>
+        <div id='previewContent' class='bg-gray-950'>
             <div id='toteContents'></div>
             <div id='toteTotal'>
                 <p id='itemsTotal'></p>
@@ -14,10 +14,7 @@
             </div>
             <button type='button'>Continue to checkout</button>
         </div>
-        <div id='footer'>
-            This will contain links and crap.
-            {{>footer}}
-        </div>
+        {{>footer}}
         <script src='/js/viewTote.js'></script>
     </body>
 </html>

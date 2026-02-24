@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/indexPics', async(req, res) => {
-    const pics = await Pic.find().limit(5)
+    const pics = await Pic.find().limit(6)
     return res.status(200).send(pics)
 })
 
