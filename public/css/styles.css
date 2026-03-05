@@ -68,7 +68,6 @@
 }
 
 #viewTote {
-    padding-left:130%;
     display: inline-flex;
     line-height: 2;
 }
@@ -123,4 +122,42 @@ button[disabled]{
 
 .cfText {
     color: green;
+}
+
+a {
+   @apply underline text-blue-600 hover:text-blue-800 visited:text-purple-600
+}
+
+input {
+	border: 0.0625rem solid #909697;
+	border-radius: 0.25rem;
+	box-sizing: border-box;
+	background: #ffffff;
+	font-family: inherit;
+	font-size: 1.125rem;
+	line-height: 1.5rem;
+	padding: 1.25rem 0.75rem;
+	width: 100%;
+}
+
+label {
+    font-size: larger;
+    font-weight: bold;
+}
+
+.ppInputDiv {
+    margin: 5px;
+    margin-top: 15px;
+}
+
+#navLinks {
+    float: left;
+}
+
+#toteLink {
+    float: right;
+}
+
+#allWidth {
+    width: 100%
 }

@@ -1,0 +1,288 @@
+const win = window
+var userId = null
+const toteContents = document.querySelector('#toteContents')
+const itemsTotal = document.querySelector('#itemsTotal')
+const shippingTotal = document.querySelector('#shippingTotal')
+const grandTotal = document.querySelector('#grandTotal')
+const viewTote = document.querySelector('#viewTote')
+const buyButton = document.querySelector('#confirmPurchase')
+
+let totalPrice = 0
+let shippingPrice = 0
+let tote = {}
+
+win.addEventListener('load', async (event) => {
+    //Hide tote link
+    viewTote.style.visibility = 'hidden'
+    //Pull in all files #TODO change this to five random images
+    let totePics = JSON.parse(localStorage.getItem('totePics'))
+
+    const baseUrl = '/images/find/'
+
+    totePics.forEach(async (picId) => {
+        var url = baseUrl + picId
+        var resp = await fetch(url)
+        var data = await resp.json()
+
+        tote[data._id] = data
+
+        totalPrice += data.price
+        var itemDiv = document.createElement('div')
+        itemDiv.className = 'item_' + data._id
+
+        var imgDiv = document.createElement('div')
+        imgDiv.id = 'img_' + data._id
+
+        var imgNode = document.createElement('img')
+        imgNode.id = 'pic_' + data._id
+        imgNode.className = 'loader'
+        imgNode.src = data.path
+
+        var pDiv = document.createElement('div')
+        pDiv.className = 'imgP_' + data._id
+
+        var imgPName = document.createElement('p')
+        imgPName.className = 'cfText'
+        var imgPWidth = document.createElement('p')
+        imgPWidth.className = 'cfText'
+        var imgPHeight = document.createElement('p')
+        imgPHeight.className = 'cfText'
+        var imgPPrice = document.createElement('p')
+        imgPPrice.className = 'cfText'
+
+        imgPName.innerHTML += 'Name: ' + data.name
+        imgPWidth.innerHTML += 'Width: ' + data.width + '\'\''
+        imgPHeight.innerHTML += 'Height ' + data.height + '\'\''
+        imgPPrice.innerHTML += 'Price $' + data.price + ' USD'
+
+        imgDiv.appendChild(imgNode)
+
+        pDiv.appendChild(imgPName)
+        pDiv.appendChild(imgPWidth)
+        pDiv.appendChild(imgPHeight)
+        pDiv.appendChild(imgPPrice)
+
+        removeP = document.createElement('p')
+        removeP.className = 'removeLink'
+        removeLink = document.createElement('a')
+        removeLink.id = 'remove_' + data._id
+        removeLink.innerHTML = 'Remove Item'
+        removeLink.href = 'javascript:void(0)'
+        removeLink.addEventListener('click', removeItem)
+        removeP.appendChild(removeLink)
+
+        itemDiv.appendChild(imgDiv)
+        itemDiv.appendChild(pDiv)
+        itemDiv.appendChild(removeP)
+
+        toteContents.appendChild(itemDiv)
+
+        updateTotal(totalPrice, shippingPrice)
+    })
+})
+
+/*buyButton.addEventListener('click', async (event) => {
+    let url = '/paypalpurchase'
+    let postInfo = tote
+    postInfo.totalPrice = Number((totalPrice).toFixed(2))
+    const resp = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(postInfo)
+    })
+})*/
+
+// Render the button component
+paypal.Buttons({
+    // Sets up the transaction when a payment button is clicked
+    createOrder: createOrderCallback,
+    onApprove: onApproveCallback,
+    onError: (error) => {
+        console.error('paypal payment failure:')
+        console.log(error)
+    },
+
+    style: {
+        shape: 'rect',
+        layout: 'vertical',
+        color: 'gold',
+        label: 'paypal',
+    },
+    message: {
+        amount: 100,
+    },
+})
+.render('#paypal-button-container')
+
+// Render each field after checking for eligibility
+const cardField = window.paypal.CardFields({
+    createOrder: createOrderCallback,
+    onApprove: onApproveCallback,
+    style: {
+        input: {
+            'font-size': '16px',
+            'font-family': 'courier, monospace',
+            'font-weight': 'lighter',
+            color: '#ccc',
+        },
+        '.invalid': { color: 'purple' },
+    }
+})
+
+if(cardField.isEligible()) {
+    const nameField = cardField.NameField({
+        style: { input: { color: 'blue' }, '.invalid': { color: 'purple' } },
+    })
+    nameField.render('#card-name-field-container')
+
+    const numberField = cardField.NumberField({
+        style: { input: { color: 'blue' } },
+    })
+    numberField.render('#card-number-field-container')
+
+    const cvvField = cardField.CVVField({
+        style: { input: { color: 'blue' } },
+    })
+    cvvField.render('#card-cvv-field-container')
+
+    const expiryField = cardField.ExpiryField({
+        style: { input: { color: 'blue' } },
+    })
+    expiryField.render('#card-expiry-field-container')
+
+    // Add click listener to submit button and call the submit function on the CardField component
+    document.getElementById('card-field-submit-button')
+    .addEventListener('click', () => {
+        cardField.submit({
+            // From your billing address fields
+            billingAddress: {
+                addressLine1: document.getElementById('card-billing-address-line-1').value,
+                addressLine2: document.getElementById('card-billing-address-line-2').value,
+                adminArea1: document.getElementById('card-billing-address-admin-area-line-1').value,
+                adminArea2: document.getElementById('card-billing-address-admin-area-line-2').value,
+                countryCode: document.getElementById('card-billing-address-country-code').value,
+                postalCode: document.getElementById('card-billing-address-postal-code').value,
+            }
+        })
+    })
+}
+
+async function createOrderCallback() {
+    resultMessage('')
+    try {
+        const response = await fetch('/api/orders', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            // use the 'body' param to optionally pass additional order information
+            // // like product ids and quantity
+            body: JSON.stringify({
+                cart: [
+                    {
+                        id: 'YOUR_PRODUCT_ID',
+                        quantity: 1,
+                    },
+                ],
+            }),
+        })
+
+        const orderData = await response.json();
+
+        if (orderData.id) {
+            return orderData.id
+        } else {
+            const errorDetail = orderData?.details?.[0]
+            const errorMessage = errorDetail
+                ? `${errorDetail.issue} ${errorDetail.description} (${orderData.debug_id})`
+                : JSON.stringify(orderData)
+
+            throw new Error(errorMessage)
+        }
+    } catch (error) {
+        console.error(error)
+        resultMessage(`Could not initiate PayPal Checkout...<br><br>${error}`)
+    }
+}
+
+async function onApproveCallback(data, actions) {
+    try {
+        const response = await fetch(`/api/orders/${data.orderID}/capture`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+
+        const orderData = await response.json()
+        // Three cases to handle:
+        // (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
+        // (2) Other non-recoverable errors -> Show a failure message
+        // (3) Successful transaction -> Show confirmation or thank you message
+        
+        const transaction =
+            orderData?.purchase_units?.[0]?.payments?.captures?.[0] ||
+            orderData?.purchase_units?.[0]?.payments?.authorizations?.[0]
+        const errorDetail = orderData?.details?.[0]
+
+        if (errorDetail || !transaction || transaction.status === 'DECLINED') {
+            // (2) Other non-recoverable errors -> Show a failure message
+            let errorMessage
+            if (transaction) {
+                errorMessage = `Transaction ${transaction.status}: ${transaction.id}`
+            } else if (errorDetail) {
+                errorMessage = `${errorDetail.description} (${orderData.debug_id})`
+            } else {
+                errorMessage = JSON.stringify(orderData)
+            }
+
+            throw new Error(errorMessage)
+        } else {
+            // (3) Successful transaction -> Show confirmation or thank you message
+            // Or go to another URL: actions.redirect('thank_you.html')
+            resultMessage(
+                `Transaction ${transaction.status}: ${transaction.id}<br><br>See console for all available details.`
+            )
+            console.log('Capture result',
+                orderData,
+                JSON.stringify(orderData, null, 2)
+            )
+        } 
+    } catch (error) {
+        console.log(error)
+        resultMessage(
+            `Sorry, your transaction could not be processed...<br><br>${error}`
+        )
+    }
+}
+
+// Example function to show a result to the user. Your site's UI library can be used isntead.
+function resultMessage(message) {
+    const container = document.querySelector('#result-message')
+    container.innerHTML = message
+}
+
+const removeItem = (event) => {
+    //Remove item from DOM
+    let id = event.srcElement.id.replace('remove_', '')
+
+    const removeDiv = document.querySelector('.item_' + id)
+    removeDiv.remove()
+    // Remove from tote and update Total
+    let totePics = JSON.parse(localStorage.getItem('totePics'))
+    let index = totePics.indexOf(id)
+    totePics.splice(index, 1)
+    localStorage.setItem('totePics', JSON.stringify(totePics))
+
+    totalPrice = totalPrice - tote[id].price
+    updateTotal(totalPrice, shippingPrice)
+}
+
+const updateTotal = (tote, shipping) => {
+    itemsTotal.innerHTML = 'Tote Total: $' + Number((tote).toFixed(2)) + ' USD'
+    shippingTotal.innerHTML = 'Shipping: $' + Number((shipping).toFixed(1)) + ' USD'
+    grandTotal.innerHTML = 'Final cost: $' + Number((tote + shipping).toFixed(1)) + ' USD' 
+}

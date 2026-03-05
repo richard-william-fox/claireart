@@ -12,9 +12,11 @@
                 <p id='shippingTotal'></p>
                 <p id='grandTotal'></p>
             </div>
-            <button type='button' id='checkout' class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cfButton'>Continue to checkout</button>
+            <div id='paypalContent'>
+            </div>
         </div>
-        {{>footer}}
-        <script src='/js/viewTote.js'></script>
+        <button 
+        <button type='button' id='payPalPurchase' class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cfButton'>Pay with PayPal</button>
+        <script src='/js/checkout.js'></script>
     </body>
 </html>

@@ -23,6 +23,14 @@ win.addEventListener('load', async (event) => {
     //Pull in file
     imageId = window.location.pathname.split('/')[2]
 
+    console.log('checking tote')
+    if(totePics.includes(imageId)) {
+        console.log('tote contains pics')
+        // Image is already in tote, disable add button and udpate status
+        toteButton.disabled = true
+        toteStatus.innerHTML = 'Item already in tote.'
+    }
+
     const allUrl = '/images/find/' + imageId
     const allResp = await fetch(allUrl)
     const data = await allResp.json()
@@ -50,8 +58,10 @@ toteButton.addEventListener('click', (event) => {
 })
 
 buyButton.addEventListener('click', (event) => {
-    totePics.push(imageId)
-    localStorage.setItem('totePics', JSON.stringify(totePics))
+    if(!totePics.includes(imageId)) {
+        totePics.push(imageId)
+        localStorage.setItem('totePics', JSON.stringify(totePics))
+    }
 
-    window.location.replace('http://staging.tabletopsupercrew.net/checkout')
+    window.location.replace('http://staging.tabletopsupercrew.net/viewTote')
 })

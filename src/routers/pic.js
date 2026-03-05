@@ -1,8 +1,11 @@
-const express = require("express")
-const mongoose = require("mongoose")
-const ObjectId = require('mongodb').ObjectID;
+//const express = require("express")
+import express from 'express'
+//const mongoose = require("mongoose")
+//const ObjectId = require('mongodb').ObjectID;
+//import ObjectId from 'mongodb'.objectID;
 //const { check, validationResult} = require("express-validator/check")
-const Pic = require("../models/pic")
+//const Pic = require("../models/pic")
+import Pic from '../models/pic.js'
 
 const router = express.Router()
 
@@ -35,4 +38,5 @@ router.post('/new', async (req, res) => {
     res.status(201).send(pic)
 })
 
-module.exports = router
+//module.exports = router
+export default router
