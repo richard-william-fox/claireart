@@ -19,6 +19,10 @@ const PicSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    thumbnail: {
+        type: String,
+        required: true
+    },
     width: {
         type: Number
     },

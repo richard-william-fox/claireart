@@ -5,8 +5,26 @@
     {{>header}}
     <body class='bg-gray-700'>
         {{>banner}}
-        <div id='previewContent' class='bg-gray-950'>
+        <div id='indexContent' class='bg-gray-900'>
+            <div class="slideshow-container">
+
+                <!-- Full-width images with number and caption text -->
+                <div id='slidePics1' class='mySlides fade'>
+                </div>
+
+                <div id='slidePics2' class="mySlides fade">
+                </div>
+
+                <!-- <div id='slidePics3' class="mySlides fade">
+                </div> -->
+
+                <!-- Next and previous buttons -->
+                <br />
+                <a id='prevButton' class='prev'>&#10094;</a>
+                <a id='nextButton' class='next'>&#10095;</a>
+            </div>
         </div>
+        <br>
         {{>footer}}
         <script src='/js/index.js'></script>
     </body>

@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/indexPics', async(req, res) => {
-    const pics = await Pic.find().limit(6)
+    const pics = await Pic.find({ name: { $in: ['10x12 C1A.jpg', '10x12 C1C.jpg', '10x12 C1G.jpg', '10x20 C1A.jpg', '10x20 C1B.jpg', '10x20 C1F.jpg', '6x12 C1A.jpg', '8x10 1A.jpg', '8x10 1B.jpg', '8x10 1C.jpg', '8x10 1D.jpg', '8x24 C1A.jpg'] }})
     return res.status(200).send(pics)
 })
 
