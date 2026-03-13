@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "claire-art-site",
   "version": "1.0.0",
   "description": "Website for Claire's art.",
@@ -23,6 +24,7 @@
     "mongoose-extend-schema": "^1.0.0",
     "mongoose-schema-extend": "^0.2.2",
     "n": "^10.2.0",
+    "nodemailer": "^8.0.2",
     "npm": "^11.9.0",
     "path": "^0.12.7",
     "paypal-rest-sdk": "^1.8.1",

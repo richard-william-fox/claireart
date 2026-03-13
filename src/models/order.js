@@ -11,6 +11,10 @@ const OrderSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    shipped: {
+        type: Boolean,
+        default: false
+    }
 })
 
 const Order = mongoose.model('Order', OrderSchema)

@@ -28,6 +28,10 @@ const PicSchema = mongoose.Schema({
     },
     type: {
         type: String
+    },
+    errored: {
+        type: Boolean,
+        default: false
     }
 })
 

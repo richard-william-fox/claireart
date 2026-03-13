@@ -1,6 +1,7 @@
 import express from 'express'
 import Order from '../models/order.js'
 import Pic from '../models/pic.js'
+import sendOrderEmail from '../emails/orders.js'
 
 const router = express.Router()
 
@@ -24,7 +25,8 @@ router.post('/newOrder', async (req, res) => {
             const orderData = {
                 pic: picId,
                 //TODO: do we need another loop here?
-                transaction_id: unit.payments.captures[0].id
+                transaction_id: unit.payments.captures[0].id,
+                shipped: false
             }
             const order = new Order(orderData)
             await order.save()
@@ -39,5 +41,14 @@ router.post('/newOrder', async (req, res) => {
     }
 })
 
-//module.exports = router
+router.post('/sendOrderEmail/:error', (req, res) => {
+    try {
+        sendOrderEmail(req.params.error)
+        console.log('Email sent.')
+    } catch (error) {
+        console.error('Error sending email: ' + error)
+    }
+    res.status(200).send()
+})
+
 export default router

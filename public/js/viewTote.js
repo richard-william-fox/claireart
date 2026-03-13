@@ -3,6 +3,7 @@ const itemsTotal = document.querySelector('#itemsTotal')
 const shippingTotal = document.querySelector('#shippingTotal')
 const grandTotal = document.querySelector('#grandTotal')
 const viewTote = document.querySelector('#viewTote')
+const orderStatus = document.querySelector('#orderStatus')
 
 let totalPrice = 0
 let shippingPrice = 0
@@ -197,6 +198,40 @@ window.paypal
               },
               body: JSON.stringify(orderData)
           })
+
+          if (newOrder.status == 201) {
+              //Order success, empty tote.
+              localStorage.setItem('totePics', JSON.stringify([]))
+              orderStatus.innerHTML = 'Order Complete! You will be receiving an email with shipping details soon.'
+              const res = await fetch('/sendOrderEmail/', {
+                  method: 'POST',
+                  headers: {
+                      'Accept': 'application/json',
+                      'Content-Type': 'application/json'
+                  }
+              })
+              console.log('Successful new order.')
+          } else {
+              //Some sort of error
+              orderStatus.innerHTML = 'There was an error processing your order. We will be in touch to alleviate the issue.'
+              const picError = await fetch('/images/error', {
+                  method: 'POST',
+                  headers: {
+                      'Accept': 'application/json',
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(orderData.purchase_units)
+              })
+              const res = await fetch('/sendOrderEmail/' + error, {
+                  method: 'POST',
+                  headers: {
+                      'Accept': 'application/json',
+                      'Content-Type': 'application/json'
+                  }
+              })
+              console.error('New order errored:')
+              console.error(error)
+          }
         }
       } catch (error) {
         console.error(error);

@@ -1,18 +1,7 @@
-//const express = require("express")
 import express from 'express'
-//const mongoose = require("mongoose")
-//const ObjectId = require('mongodb').ObjectID;
-//import ObjectId from 'mongodb'.objectID;
-//const { check, validationResult} = require("express-validator/check")
-//const Pic = require("../models/pic")
 import Pic from '../models/pic.js'
 
 const router = express.Router()
-
-router.get('/', async (req, res) => {
-    //const pics = await Pic.find()
-    res.status(200).send({})
-})
 
 router.get('/indexPics', async(req, res) => {
     const pics = await Pic.find({ name: { $in: ['10x12 C1A.jpg', '10x12 C1C.jpg', '10x12 C1G.jpg', '10x20 C1A.jpg', '10x20 C1B.jpg', '10x20 C1F.jpg', '6x12 C1A.jpg', '8x10 1A.jpg', '8x10 1B.jpg', '8x10 1C.jpg', '8x10 1D.jpg', '8x24 C1A.jpg'] }})
@@ -38,5 +27,17 @@ router.post('/new', async (req, res) => {
     res.status(201).send(pic)
 })
 
-//module.exports = router
+router.post('/error', (req, res) => {
+    try {
+        req.body.forEach(async (unit) => {
+            const pic = await Pic.findOneAndUpdate({_id: unit.reference_id}, {errored: true})
+        })
+        res.status(200).send(pic)
+    } catch (error) {
+        console.error('Error while settings pics to errored status: ')
+        console.error(error)
+        res.status(500).send()
+    }
+})
+
 export default router
