@@ -1,10 +1,7 @@
-//const mongoose = require('mongoose')
 import mongoose from 'mongoose'
-//const extend = require('mongoose-extend-schema')
-//const validator = require('validator')
 import validator from 'validator'
 
-// Player Character schema
+// Pic schema
 const PicSchema = mongoose.Schema({
     name: {
         type: String
@@ -36,6 +33,5 @@ const PicSchema = mongoose.Schema({
 
 const Pic = mongoose.model('Pic', PicSchema)
 
-// export model user with PicSchema
-//module.exports = Pic
+// export model Pic with PicSchema
 export default Pic

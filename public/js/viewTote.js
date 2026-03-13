@@ -6,7 +6,7 @@ const viewTote = document.querySelector('#viewTote')
 
 let totalPrice = 0
 let shippingPrice = 0
-let tote = {}
+let tote = []
 
 window.addEventListener('load', async (event) => {
     //Hide tote link
@@ -114,6 +114,16 @@ window.paypal
 
     async createOrder() {
       try {
+        let children = toteContents.children
+        let cart = []
+        for (let child of children) {
+            let id = child.className.replace('item_', '')
+            let item = {}
+            item.id = id
+            item.quantity = 1
+            item.price = tote[id].price
+            cart.push(item)
+        }
         const response = await fetch("/api/orders", {
           method: "POST",
           headers: {
@@ -122,12 +132,7 @@ window.paypal
           // use the "body" param to optionally pass additional order information
           // like product ids and quantities
           body: JSON.stringify({
-            cart: [
-              {
-                id: "YOUR_PRODUCT_ID",
-                quantity: "YOUR_PRODUCT_QUANTITY",
-              },
-            ],
+            cart: cart
           }),
         });
 
@@ -143,7 +148,6 @@ window.paypal
 
         throw new Error(errorMessage);
       } catch (error) {
-        console.error(error);
         resultMessage(`Could not initiate PayPal Checkout...<br><br>${error}`);
       }
     },
@@ -182,14 +186,17 @@ window.paypal
             orderData?.purchase_units?.[0]?.payments?.captures?.[0] ||
             orderData?.purchase_units?.[0]?.payments?.authorizations?.[0];
           resultMessage(
-            `Transaction ${transaction.status}: ${transaction.id}<br>
-          <br>See console for all available details`
+            `Transaction ${transaction.status}`
           );
-          console.log(
-            "Capture result",
-            orderData,
-            JSON.stringify(orderData, null, 2)
-          );
+
+          const newOrder = await fetch('/newOrder', {
+              method: 'POST',
+              headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(orderData)
+          })
         }
       } catch (error) {
         console.error(error);
