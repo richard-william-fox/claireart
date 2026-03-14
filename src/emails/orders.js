@@ -21,7 +21,8 @@ const sendOrderEmail = (error = null) => {
     } else {
         mailOptions.subject = 'Order error'
         mailOptions.text = 'There was an error processing an order on Claire Fox Creations. Follow up may be needed. Please see error details.\n' +
-            error
+            'Email: ' + error.email + '\n' +
+            'Transactions: ' + error.transactions + '\n'
     }
 
     smtpTransport.sendMail(mailOptions, function(error, info){

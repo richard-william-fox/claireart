@@ -203,14 +203,13 @@ window.paypal
               //Order success, empty tote.
               localStorage.setItem('totePics', JSON.stringify([]))
               orderStatus.innerHTML = 'Order Complete! You will be receiving an email with shipping details soon.'
-              const res = await fetch('/sendOrderEmail/', {
+              const res = await fetch('/sendOrderEmail/true', {
                   method: 'POST',
                   headers: {
                       'Accept': 'application/json',
                       'Content-Type': 'application/json'
-                  }
+                  },
               })
-              console.log('Successful new order.')
           } else {
               //Some sort of error
               orderStatus.innerHTML = 'There was an error processing your order. We will be in touch to alleviate the issue.'
@@ -222,18 +221,18 @@ window.paypal
                   },
                   body: JSON.stringify(orderData.purchase_units)
               })
-              const res = await fetch('/sendOrderEmail/' + error, {
+              const res = await fetch('/sendOrderEmail/false', {
                   method: 'POST',
                   headers: {
                       'Accept': 'application/json',
                       'Content-Type': 'application/json'
-                  }
+                  },
+                  body: JSON.stringify(orderData)
               })
-              console.error('New order errored:')
-              console.error(error)
           }
         }
       } catch (error) {
+        console.error('New order errored:')
         console.error(error);
         resultMessage(
           `Sorry, your transaction could not be processed...<br><br>${error}`

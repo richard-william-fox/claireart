@@ -32,7 +32,7 @@ router.post('/error', (req, res) => {
         req.body.forEach(async (unit) => {
             const pic = await Pic.findOneAndUpdate({_id: unit.reference_id}, {errored: true})
         })
-        res.status(200).send(pic)
+        res.status(200).send()
     } catch (error) {
         console.error('Error while settings pics to errored status: ')
         console.error(error)

@@ -18,6 +18,7 @@ router.get('/find/:id', async (req, res) => {
 })
 
 router.post('/newOrder', async (req, res) => {
+    res.status(500).send()
     //Create an order record and mark the pic as sold
     try {
         req.body.purchase_units.forEach( async (unit) => {
@@ -41,9 +42,17 @@ router.post('/newOrder', async (req, res) => {
     }
 })
 
-router.post('/sendOrderEmail/:error', (req, res) => {
+router.post('/sendOrderEmail/:success', (req, res) => {
+    const errorInfo = {
+        email: req.body.payer.email_address,
+        transactions: JSON.stringify(req.body.purchase_units[0].payments.captures)
+    }
     try {
-        sendOrderEmail(req.params.error)
+        if (req.params.success == true) {
+            sendOrderEmail()
+        } else {
+            sendOrderEmail(errorInfo)
+        }
         console.log('Email sent.')
     } catch (error) {
         console.error('Error sending email: ' + error)
