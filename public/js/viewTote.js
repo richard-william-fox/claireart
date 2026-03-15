@@ -22,9 +22,7 @@ window.addEventListener('load', async (event) => {
         headers: {
             "Content-Type": "application/json",
         },
-        // use the "body" param to optionally pass additional order information
-        // like product ids and quantities
-        body: localStorage.getItem('totePics')
+        body: JSON.stringify(getToteItems())
     })
     tote = await resp.json()
 
@@ -97,10 +95,10 @@ const removeItem = (event) => {
     const removeDiv = document.querySelector('.item_' + id)
     removeDiv.remove()
     // Remove from tote and update Total
-    let totePics = JSON.parse(localStorage.getItem('totePics'))
+    let totePics = getToteItems()
     let index = totePics.indexOf(id)
     totePics.splice(index, 1)
-    localStorage.setItem('totePics', JSON.stringify(totePics))
+    setToteItem(totePics)
 
     tote.forEach((pic) => {
         if (pic._id == id) {
@@ -212,7 +210,7 @@ window.paypal
 
           if (newOrder.status == 201) {
               //Order success, empty tote.
-              localStorage.setItem('totePics', JSON.stringify([]))
+              setToteItem([])
               orderStatus.innerHTML = 'Order Complete! You will be receiving an email with shipping details soon.'
               const res = await fetch('/sendOrderEmail/true', {
                   method: 'POST',

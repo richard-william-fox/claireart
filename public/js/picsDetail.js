@@ -9,13 +9,13 @@ const toteCount = document.querySelector('#toteCount')
 const toteButton = document.querySelector('#addToTote')
 const buyButton = document.querySelector('#buyNow')
 const toteStatus = document.querySelector('#toteStatus')
-var imageId
-var totePics
+let imageId
+let totePics
 
 win.addEventListener('load', async (event) => {
     //Check for current cart value
-    var count = 0
-    totePics = JSON.parse(localStorage.getItem('totePics'))
+    totePics = getToteItems()
+    let count = 0
     count = (totePics != null ? totePics.length : 0)
 
     toteCount.innerHTML += count
@@ -23,32 +23,32 @@ win.addEventListener('load', async (event) => {
     //Pull in file
     imageId = window.location.pathname.split('/')[2]
 
+    const allUrl = '/images/find/' + imageId
+    const allResp = await fetch(allUrl)
+    image = await allResp.json()
+
     if(totePics.includes(imageId)) {
         // Image is already in tote, disable add button and udpate status
         toteButton.disabled = true
         toteStatus.innerHTML = 'Item already in tote.'
     }
 
-    const allUrl = '/images/find/' + imageId
-    const allResp = await fetch(allUrl)
-    const data = await allResp.json()
-
     var imgNode = document.createElement('img')
-    imgNode.id = 'pic_' + data._id
+    imgNode.id = 'pic_' + image._id
     imgNode.className = 'loader'
-    imgNode.src = data.path
+    imgNode.src = image.path
 
     previewContent.appendChild(imgNode)
 
-    imgNameP.innerHTML += ' ' + data.name
-    imgWidthP.innerHTML += ' ' + data.width + '\'\''
-    imgHeightP.innerHTML += ' ' + data.height + '\'\''
-    imgPriceP.innerHTML += ' ' + data.price
+    imgNameP.innerHTML += ' ' + image.name
+    imgWidthP.innerHTML += ' ' + image.width + '\'\''
+    imgHeightP.innerHTML += ' ' + image.height + '\'\''
+    imgPriceP.innerHTML += ' ' + image.price
 })
 
 toteButton.addEventListener('click', (event) => {
     totePics.push(imageId)
-    localStorage.setItem('totePics', JSON.stringify(totePics))
+    setToteItem(totePics)
 
     toteStatus.innerHTML = 'Item added to tote.'
     toteButton.disabled = true
@@ -58,7 +58,7 @@ toteButton.addEventListener('click', (event) => {
 buyButton.addEventListener('click', (event) => {
     if(!totePics.includes(imageId)) {
         totePics.push(imageId)
-        localStorage.setItem('totePics', JSON.stringify(totePics))
+        setToteItem(totePics)
     }
 
     window.location.replace('http://staging.tabletopsupercrew.net/viewTote')

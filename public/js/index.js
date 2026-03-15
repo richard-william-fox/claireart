@@ -48,9 +48,9 @@ win.addEventListener('load', async (event) => {
     }
 
     var count = 0
-    var totePics = JSON.parse(localStorage.getItem('totePics'))
+    var totePics = getToteItems()
     if (!totePics) {
-        localStorage.setItem('totePics', JSON.stringify([]))
+        setToteItem([])
         count = 0
     } else {
         count = totePics.length
