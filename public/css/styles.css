@@ -248,3 +248,7 @@ label {
     font-weight: bold;
     color: purple;
 }
+
+.errorText {
+    color: red;
+}

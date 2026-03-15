@@ -4,40 +4,45 @@ const shippingTotal = document.querySelector('#shippingTotal')
 const grandTotal = document.querySelector('#grandTotal')
 const viewTote = document.querySelector('#viewTote')
 const orderStatus = document.querySelector('#orderStatus')
+const errorStatus = document.querySelector('#errorStatus')
 
 let totalPrice = 0
 let shippingPrice = 0
-let tote = []
+
+let tote
+
+//TODO: redo how we handle tote. Make at least a partial object instead of a list in storage. Maybe in the router
 
 window.addEventListener('load', async (event) => {
     //Hide tote link
     viewTote.style.visibility = 'hidden'
-    //Pull in all files #TODO change this to five random images
-    let totePics = JSON.parse(localStorage.getItem('totePics'))
 
-    const baseUrl = '/images/find/'
+    let resp = await fetch('/images/findPics', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        // use the "body" param to optionally pass additional order information
+        // like product ids and quantities
+        body: localStorage.getItem('totePics')
+    })
+    tote = await resp.json()
 
-    totePics.forEach(async (picId) => {
-        var url = baseUrl + picId
-        var resp = await fetch(url)
-        var data = await resp.json()
-
-        tote[data._id] = data
-
-        totalPrice += data.price
+    tote.forEach(async (pic) => {
+        totalPrice += pic.price
         var itemDiv = document.createElement('div')
-        itemDiv.className = 'item_' + data._id
+        itemDiv.className = 'item_' + pic._id
 
         var imgDiv = document.createElement('div')
-        imgDiv.id = 'img_' + data._id
+        imgDiv.id = 'img_' + pic._id
 
         var imgNode = document.createElement('img')
-        imgNode.id = 'pic_' + data._id
+        imgNode.id = 'pic_' + pic._id
         imgNode.className = 'loader'
-        imgNode.src = data.path
+        imgNode.src = pic.thumbnail
 
         var pDiv = document.createElement('div')
-        pDiv.className = 'imgP_' + data._id
+        pDiv.className = 'imgP_' + pic._id
 
         var imgPName = document.createElement('p')
         imgPName.className = 'cfText'
@@ -48,10 +53,10 @@ window.addEventListener('load', async (event) => {
         var imgPPrice = document.createElement('p')
         imgPPrice.className = 'cfText'
 
-        imgPName.innerHTML += 'Name: ' + data.name
-        imgPWidth.innerHTML += 'Width: ' + data.width + '\'\''
-        imgPHeight.innerHTML += 'Height ' + data.height + '\'\''
-        imgPPrice.innerHTML += 'Price $' + data.price + ' USD'
+        imgPName.innerHTML += 'Name: ' + pic.name
+        imgPWidth.innerHTML += 'Width: ' + pic.width + '\'\''
+        imgPHeight.innerHTML += 'Height ' + pic.height + '\'\''
+        imgPPrice.innerHTML += 'Price $' + pic.price + ' USD'
 
         imgDiv.appendChild(imgNode)
 
@@ -63,7 +68,7 @@ window.addEventListener('load', async (event) => {
         removeP = document.createElement('p')
         removeP.className = 'removeLink'
         removeLink = document.createElement('a')
-        removeLink.id = 'remove_' + data._id
+        removeLink.id = 'remove_' + pic._id
         removeLink.innerHTML = 'Remove Item'
         removeLink.href = 'javascript:void(0)'
         removeLink.addEventListener('click', removeItem)
@@ -97,8 +102,14 @@ const removeItem = (event) => {
     totePics.splice(index, 1)
     localStorage.setItem('totePics', JSON.stringify(totePics))
 
-    totalPrice = totalPrice - tote[id].price
-    updateTotal(totalPrice, shippingPrice)
+    tote.forEach((pic) => {
+        if (pic._id == id) {
+            totalPrice = totalPrice - pic.price
+            updateTotal(totalPrice, shippingPrice)
+        }
+    })
+
+    tote = tote.filter(function(el) { return el._id != id })
 }
 
 window.paypal
@@ -117,14 +128,14 @@ window.paypal
       try {
         let children = toteContents.children
         let cart = []
-        for (let child of children) {
-            let id = child.className.replace('item_', '')
+        tote.forEach((pic) => {
             let item = {}
-            item.id = id
+            item.id = pic._id
             item.quantity = 1
-            item.price = tote[id].price
+            item.price = pic.price
             cart.push(item)
-        }
+        })
+        checkSoldErrored()
         const response = await fetch("/api/orders", {
           method: "POST",
           headers: {
@@ -246,4 +257,23 @@ window.paypal
 function resultMessage(message) {
   const container = document.querySelector("#result-message");
   container.innerHTML = message;
+}
+
+function checkSoldErrored() {
+    let message = ''
+    let error = false
+    tote.forEach((pic) => {
+        if (pic.sold || pic.errored) {
+            message += 'Picture ' + pic.name + ' has been sold while you were shopping or is in dispute. Please remove the item from your cart to proceed.\n'
+            message += 'Feel free to reach out to administration if you believe this is in error.\n'
+            //TODO: Hackey, switch to id
+            picDiv = document.getElementsByClassName('item_' + pic._id)[0]
+            picDiv.style.border = '1px solid red'
+            error = true
+        }
+    })
+    if (error) {
+        errorStatus.innerHTML = message
+        throw new Error(message)
+    }
 }

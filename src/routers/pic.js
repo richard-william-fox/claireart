@@ -20,6 +20,12 @@ router.get('/find/:id', async (req, res) => {
     res.status(200).send(pic)
 })
 
+router.post('/findPics', async (req, res) => {
+    const pics = await Pic.find({'_id': {$in: req.body}})
+
+    res.status(200).send(pics)
+})
+
 router.post('/new', async (req, res) => {
     const pic = new Pic(req.body)
 
