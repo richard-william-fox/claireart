@@ -1,5 +1,5 @@
 const win = window
-const previewContent = document.querySelector('#previewContent')
+const indexContent = document.querySelector('#indexContent')
 const toteCount = document.querySelector('#toteCount')
 const prevButton = document.querySelector('#prevButton')
 const nextButton = document.querySelector('#nextButton')

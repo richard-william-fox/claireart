@@ -8,10 +8,9 @@ const errorStatus = document.querySelector('#errorStatus')
 
 let totalPrice = 0
 let shippingPrice = 0
+let internalError = ''
 
 let tote
-
-//TODO: redo how we handle tote. Make at least a partial object instead of a list in storage. Maybe in the router
 
 window.addEventListener('load', async (event) => {
     //Hide tote link
@@ -139,8 +138,6 @@ window.paypal
           headers: {
             "Content-Type": "application/json",
           },
-          // use the "body" param to optionally pass additional order information
-          // like product ids and quantities
           body: JSON.stringify({
             cart: cart
           }),
@@ -221,7 +218,7 @@ window.paypal
               })
           } else {
               //Some sort of error
-              orderStatus.innerHTML = 'There was an error processing your order. We will be in touch to alleviate the issue.'
+              internalError = 'Despite the error, payment has been processed. Do not attempt to purchase again. We will be in contact to alleviat4e the issue.'
               const picError = await fetch('/images/error', {
                   method: 'POST',
                   headers: {
@@ -244,7 +241,7 @@ window.paypal
         console.error('New order errored:')
         console.error(error);
         resultMessage(
-          `Sorry, your transaction could not be processed...<br><br>${error}`
+          `Sorry, your transaction could not be processed...<br><br>${error}\n\n` + internalError
         );
       }
     },

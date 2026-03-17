@@ -21,6 +21,24 @@
     margin-bottom: 10px;
 }
 
+#listContent {
+    border: solid;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 75%;
+    margin-left: 12.5%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#listContent img {
+    border: solid;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100px;
+    height: 100px;
+}
+
 #indexContent {
     border: solid;
     padding-left: 5px;

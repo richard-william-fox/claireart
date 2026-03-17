@@ -8,9 +8,21 @@ router.get('/indexPics', async(req, res) => {
     return res.status(200).send(pics)
 })
 
-router.get('/all', async (req, res) => {
-    const pics = await Pic.find()
+router.get('/listPics/:skip/:limit', async (req, res) => {
+    const pics = await Pic.find(
+        {
+            sold: false,
+            errored: false,
+            thumbnail: { $ne: null },
+        },
+    ).skip(Number(req.params.skip)).limit(Number(req.params.limit))
     res.status(200).send(pics)
+})
+
+router.get('/countPics',  async (req, res) => {
+    const count = await Pic.find().count()
+
+    res.status(200).send({'count': count})
 })
 
 router.get('/find/:id', async (req, res) => {
