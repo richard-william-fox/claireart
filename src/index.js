@@ -39,6 +39,14 @@ hbs.registerPartials(partialsPath)
 app.use(express.static(publicDir))
 app.use(express.json())
 
+app.get('/upgrades', (req, res) => {
+    res.render('upgrades', {
+        header: 'Claire Fox Creations',
+        name: 'Claire Fox Creations',
+        title: 'Claire Fox Creations'
+    })
+})
+
 server.listen(port, () => {
     console.log('Server is up on port ' + port + '.')
 })

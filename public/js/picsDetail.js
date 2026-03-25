@@ -27,6 +27,7 @@ win.addEventListener('load', async (event) => {
     const allResp = await fetch(allUrl)
     image = await allResp.json()
 
+
     if(totePics.includes(imageId)) {
         // Image is already in tote, disable add button and udpate status
         toteButton.disabled = true
@@ -37,6 +38,8 @@ win.addEventListener('load', async (event) => {
     imgNode.id = 'pic_' + image._id
     imgNode.className = 'loader'
     imgNode.src = image.path
+    imgNode.style.width = '75%'
+    imgNode.style.height = height = '75%'
 
     previewContent.appendChild(imgNode)
 
