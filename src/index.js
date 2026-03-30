@@ -47,6 +47,15 @@ app.get('/upgrades', (req, res) => {
     })
 })
 
+/*app.post('/tosAgreement', (req, res) => {
+    if (req.body.tos) {
+        res.cookie('tosAgreement', true)
+        console.log('cookie set in index: ')
+        return res.status(200).send()
+    }
+    return res.status(500).send({})
+})*/
+
 server.listen(port, () => {
     console.log('Server is up on port ' + port + '.')
 })

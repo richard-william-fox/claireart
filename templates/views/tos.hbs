@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<html>
+    {{>header}}
+    <body class='bg-gray-700'>
+        {{>banner}}
+        <div id='tosContent' class='bg-gray-900'>
+            <div>
+                <p class='cfText'>By checking this box you agree to the terms of service. All images contained on this site are property of Claire Fox Creations. Unauthorized use or redistribution of content from the site is prohibited.</p>
+            </div>
+            <div id='tosCheckDiv'>
+                <input type='checkbox' id='tosCheck' name='tosCheck' value=true>
+                <label for='tosCheck' class='cfText'>I agree</label>
+            </div>
+            <div>
+                <button type='button' id='tosButton' class='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cfButton'>Submit</button>
+            </div>
+        </div>
+        {{>footer}}
+        <script src='/js/tos.js'></script>
+    </body>
+</html>

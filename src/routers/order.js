@@ -53,7 +53,6 @@ router.post('/sendOrderEmail/:success', (req, res) => {
         } else {
             sendOrderEmail(errorInfo)
         }
-        console.log('Email sent.')
     } catch (error) {
         console.error('Error sending email: ' + error)
     }

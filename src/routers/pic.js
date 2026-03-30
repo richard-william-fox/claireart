@@ -4,7 +4,10 @@ import Pic from '../models/pic.js'
 const router = express.Router()
 
 router.get('/indexPics', async(req, res) => {
-    const pics = await Pic.find({ name: { $in: ['10x12 C1A.jpg', '10x12 C1C.jpg', '10x12 C1G.jpg', '10x20 C1A.jpg', '10x20 C1B.jpg', '10x20 C1F.jpg', '6x12 C1A.jpg', '8x10 1A.jpg', '8x10 1B.jpg', '8x10 1C.jpg', '8x10 1D.jpg', '8x24 C1A.jpg'] }})
+    const sample = { $sample: { size: 12 } }
+    const match = { $match: { sold: false, errored: false } }
+    //const pics = await Pic.find({ name: { $in: ['10x12 C1A.jpg', '10x12 C1C.jpg', '10x12 C1G.jpg', '10x20 C1A.jpg', '10x20 C1B.jpg', '10x20 C1F.jpg', '6x12 C1A.jpg', '8x10 1A.jpg', '8x10 1B.jpg', '8x10 1C.jpg', '8x10 1D.jpg', '8x24 C1A.jpg'] }})
+    const pics = await Pic.aggregate([match, sample])
     return res.status(200).send(pics)
 })
 
@@ -20,7 +23,7 @@ router.get('/listPics/:skip/:limit', async (req, res) => {
 })
 
 router.get('/countPics',  async (req, res) => {
-    const count = await Pic.find().count()
+    const count = await Pic.find({sold: false, errored: false}).count()
 
     res.status(200).send({'count': count})
 })

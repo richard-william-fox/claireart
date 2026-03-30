@@ -49,6 +49,17 @@
     margin-bottom: 10px;
 }
 
+#tosContent {
+    border: solid;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 75%;
+    margin-left: 12.5%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
 #indexContent img {
     border: solid;
     margin-top: 10px;
@@ -293,4 +304,8 @@ label {
 #title {
     font-family: myFont;
     font-size: 50px;
+}
+
+#copyright p {
+    font-weight: bold;
 }

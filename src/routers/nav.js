@@ -74,4 +74,12 @@ router.get('/checkout', (req, res) => {
     })
 })
 
+/*router.get('/tos', (req, res) => {
+    res.render('tos', {
+        header: 'Claire Fox Creations',
+        name: 'Claire Fox Creations',
+        title: 'Claire Fox Creations'
+    })
+})*/
+
 export default router
