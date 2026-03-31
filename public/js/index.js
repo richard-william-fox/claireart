@@ -60,19 +60,6 @@ win.addEventListener('load', async (event) => {
 
 })
 
-prevButton.addEventListener('click', (event) => {
-    changeSlides(-1)
-})
-
-nextButton.addEventListener('click', (event) => {
-    changeSlides(1)
-})
-
-// Next/previous controls
-const changeSlides = (n) => {
-  showSlides(slideIndex += n);
-}
-
 function showSlides(n) {
   let i
   let slides = document.getElementsByClassName("mySlides")

@@ -3,16 +3,15 @@ const indexContent = document.querySelector('#indexContent')
 const toteCount = document.querySelector('#toteCount')
 const prevButton = document.querySelector('#prevButton')
 const nextButton = document.querySelector('#nextButton')
-const pics1 = document.querySelector('#slidePics1')
+const pics1 = document.querySelector('#listSlidePics1')
 const slideshowContainer = document.getElementsByClassName('slideshow-container')[0]
 
 let skip = 0
-let limit = 10
+let limit = 5
 let slideIndex = 1
 let picsCount = 0
 let maxDivs = 0
 const baseUrl = '/images/listPics/'
-showSlides(slideIndex)
 
 win.addEventListener('load', async (event) => {
     prevButton.style.display = 'none'
@@ -23,7 +22,6 @@ win.addEventListener('load', async (event) => {
     picsCount = countObj.count
     maxDivs = Math.ceil(picsCount / limit)
 
-    //Pull in all files #TODO change this to five random images
     let allUrl = baseUrl + skip + '/' + limit
     const allResp = await fetch(allUrl)
     const allData = await allResp.json()
@@ -50,7 +48,7 @@ function buildPics(data, number) {
         element.style.display = 'inline-flex'
     } else {
         element = document.createElement('div')
-        element.id = 'slidePics' + number
+        element.id = 'listSlidePics' + number
         element.className = 'mySlides fade'
         element.style.display = 'inline-flex'
     }
@@ -63,7 +61,7 @@ function buildPics(data, number) {
         var imgNode = document.createElement('img')
         imgNode.id = 'pic_' + pic._id
         imgNode.className = 'loader'
-        imgNode.src = pic.thumbnail
+        imgNode.src = pic.thumbnail.replace('thumbnails', 'thumb2x')
 
         linkNode.appendChild(imgNode)
 
@@ -97,7 +95,7 @@ const changeSlides = (n) => {
 
 async function showSlides(n) {
     let slides = document.getElementsByClassName("mySlides")
-    const curDiv = document.getElementById('slidePics' + n)
+    const curDiv = document.getElementById('listSlidePics' + n)
 
     for (let i = 0; i < slides.length; i++) {
         slides[i].style.display = 'none'
