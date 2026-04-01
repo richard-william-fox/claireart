@@ -8,67 +8,67 @@
 
             <div>
                 <p class='fancyText cfText'>Filter by size:</p>
-                <el-select class="inline-block">
-                    <button class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-300 hover:bg-gray-50">
+                <el-select id='picsSizeSelect' class='inline-block'>
+                    <button class='inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-300 hover:bg-gray-50'>
                         <el-selectedcontent class="col-start-1 row-start-1 flex items-center gap-3 pr-6">
-                            <span class="block truncate">10x12''</span>
+                            <span class='block truncate'>10x12''</span>
                         </el-selectedcontent>
                     </button>
 
-                    <el-options anchor="bottom start" popover class="max-h-56 w-(--button-width) overflow-auto rounded-md bg-white py-1 text-base shadow-lg outline-1 outline-black/5 [--anchor-gap:--spacing(1)] data-leave:transition data-leave:transition-discrete data-leave:duration-100 data-leave:ease-in data-closed:data-leave:opacity-0 sm:text-sm">
-                        <el-option value="10x12" class="group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden">
-                            <span class="ml-3 block truncate font-normal group-aria-selected/option:font-semibold">10x12''</span>
+                    <el-options anchor='bottom start' popover class='max-h-56 w-(--button-width) overflow-auto rounded-md bg-white py-1 text-base shadow-lg outline-1 outline-black/5 [--anchor-gap:--spacing(1)] data-leave:transition data-leave:transition-discrete data-leave:duration-100 data-leave:ease-in data-closed:data-leave:opacity-0 sm:text-sm'>
+                        <el-option value='10x12' class='group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden'>
+                            <span class='ml-3 block truncate font-normal group-aria-selected/option:font-semibold'>10x12''</span>
                         </el-option>
-                        <el-option value="10x20" class="group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden">
+                        <el-option value='10x20' class='group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden'>
                             <span class="ml-3 block truncate font-normal group-aria-selected/option:font-semibold">10x20''</span>
                         </el-option>
-                        <el-option value="11x14" class="group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden">
-                            <span class="ml-3 block truncate font-normal group-aria-selected/option:font-semibold">11x14''</span>
+                        <el-option value='11x14' class='group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden'>
+                            <span class='ml-3 block truncate font-normal group-aria-selected/option:font-semibold'>11x14''</span>
                         </el-option>
-                        <el-option value="12x12" class="group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden">
-                            <span class="ml-3 block truncate font-normal group-aria-selected/option:font-semibold">12x12''</span>
+                        <el-option value='12x12' class='group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden'>
+                            <span class='ml-3 block truncate font-normal group-aria-selected/option:font-semibold'>12x12''</span>
                         </el-option>
-                        <el-option value="12x16" class="group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden">
-                            <span class="ml-3 block truncate font-normal group-aria-selected/option:font-semibold">12x16''</span>
+                        <el-option value='12x16' class='group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden'>
+                            <span class='ml-3 block truncate font-normal group-aria-selected/option:font-semibold'>12x16''</span>
                         </el-option>
-                        <el-option value="12x24" class="group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden">
-                            <span class="ml-3 block truncate font-normal group-aria-selected/option:font-semibold">12x24''</span>
+                        <el-option value='12x24' class='group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden'>
+                            <span class='ml-3 block truncate font-normal group-aria-selected/option:font-semibold'>12x24''</span>
                         </el-option>
-                        <el-option value="14x14" class="group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden">
-                            <span class="ml-3 block truncate font-normal group-aria-selected/option:font-semibold">14x14''</span>
+                        <el-option value='14x14" class="group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden'>
+                            <span class='ml-3 block truncate font-normal group-aria-selected/option:font-semibold'>14x14''</span>
                         </el-option>
-                        <el-option value="14x18" class="group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden">
-                            <span class="ml-3 block truncate font-normal group-aria-selected/option:font-semibold">14x18''</span>
+                        <el-option value='14x18' class='group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden'>
+                            <span class='ml-3 block truncate font-normal group-aria-selected/option:font-semibold'>14x18''</span>
                         </el-option>
-                        <el-option value="16x20" class="group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden">
-                            <span class="ml-3 block truncate font-normal group-aria-selected/option:font-semibold">16x20''</span>
+                        <el-option value='16x20' class='group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden'>
+                            <span class='ml-3 block truncate font-normal group-aria-selected/option:font-semibold'>16x20''</span>
                         </el-option>
-                        <el-option value="18x18" class="group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden">
-                            <span class="ml-3 block truncate font-normal group-aria-selected/option:font-semibold">18x18''</span>
+                        <el-option value='18x18' class='group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden'>
+                            <span class='ml-3 block truncate font-normal group-aria-selected/option:font-semibold'>18x18''</span>
                         </el-option>
-                        <el-option value="18x24" class="group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden">
-                            <span class="ml-3 block truncate font-normal group-aria-selected/option:font-semibold">18x24''</span>
+                        <el-option value='18x24' class='group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden'>
+                            <span class='ml-3 block truncate font-normal group-aria-selected/option:font-semibold'>18x24''</span>
                         </el-option>
-                        <el-option value="20x20" class="group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden">
-                            <span class="ml-3 block truncate font-normal group-aria-selected/option:font-semibold">20x20''</span>
+                        <el-option value='20x20' class='group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden'>
+                            <span class='ml-3 block truncate font-normal group-aria-selected/option:font-semibold'>20x20''</span>
                         </el-option>
-                        <el-option value="22x28" class="group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden">
-                            <span class="ml-3 block truncate font-normal group-aria-selected/option:font-semibold">22x28''</span>
+                        <el-option value='22x28' class='group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden'>
+                            <span class='ml-3 block truncate font-normal group-aria-selected/option:font-semibold'>22x28''</span>
                         </el-option>
-                        <el-option value="6x12" class="group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden">
-                            <span class="ml-3 block truncate font-normal group-aria-selected/option:font-semibold">6x12''</span>
+                        <el-option value='6x12' class='group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden'>
+                            <span class='ml-3 block truncate font-normal group-aria-selected/option:font-semibold'>6x12''</span>
                         </el-option>
-                        <el-option value="8x12" class="group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden">
-                            <span class="ml-3 block truncate font-normal group-aria-selected/option:font-semibold">8x12''</span>
+                        <el-option value='8x12' class='group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden'>
+                            <span class='ml-3 block truncate font-normal group-aria-selected/option:font-semibold'>8x12''</span>
                         </el-option>
-                        <el-option value="8x24" class="group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden">
-                            <span class="ml-3 block truncate font-normal group-aria-selected/option:font-semibold">8x24''</span>
+                        <el-option value='8x24' class='group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden'>
+                            <span class='ml-3 block truncate font-normal group-aria-selected/option:font-semibold'>8x24''</span>
                         </el-option>
-                        <el-option value="9x12" class="group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden">
-                            <span class="ml-3 block truncate font-normal group-aria-selected/option:font-semibold">9x12''</span>
+                        <el-option value='9x12' class='group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden'>
+                            <span class='ml-3 block truncate font-normal group-aria-selected/option:font-semibold'>9x12''</span>
                         </el-option>
-                        <el-option value="Oval" class="group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden">
-                            <span class="ml-3 block truncate font-normal group-aria-selected/option:font-semibold">Oval</span>
+                        <el-option value='Oval' class='group/option relative block cursor-default py-2 pr-9 pl-3 text-gray-900 select-none focus:bg-indigo-600 focus:text-white focus:outline-hidden'>
+                            <span class='ml-3 block truncate font-normal group-aria-selected/option:font-semibold'>Oval</span>
                         </el-option>
                     </el-options>
                 </el-select>

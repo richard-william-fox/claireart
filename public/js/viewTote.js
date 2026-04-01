@@ -123,7 +123,6 @@ window.paypal
 
     async createOrder() {
       try {
-        let children = toteContents.children
         let cart = []
         tote.forEach((pic) => {
             let item = {}

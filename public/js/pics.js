@@ -5,28 +5,22 @@ const prevButton = document.querySelector('#prevButton')
 const nextButton = document.querySelector('#nextButton')
 const pics1 = document.querySelector('#listSlidePics1')
 const slideshowContainer = document.getElementsByClassName('slideshow-container')[0]
+const select = document.querySelector('#picsSizeSelect')
 
 let skip = 0
 let limit = 5
 let slideIndex = 1
 let picsCount = 0
 let maxDivs = 0
+let size
 const baseUrl = '/images/listPics/'
 
 win.addEventListener('load', async (event) => {
+    size = new URLSearchParams(window.location.search).get('size')
+    select.value = size
     prevButton.style.display = 'none'
 
-    let countUrl = '/images/countPics'
-    let resp = await fetch(countUrl)
-    let countObj = await resp.json()
-    picsCount = countObj.count
-    maxDivs = Math.ceil(picsCount / limit)
-
-    let allUrl = baseUrl + skip + '/' + limit
-    const allResp = await fetch(allUrl)
-    const allData = await allResp.json()
-
-    buildPics(allData, slideIndex)
+    getPicsData(size)
 
     var count = 0
     var totePics = getToteItems()
@@ -38,6 +32,9 @@ win.addEventListener('load', async (event) => {
     }
 
     toteCount.innerHTML = 'View Tote: ' + count
+
+    console.log('index: ' + slideIndex)
+    console.log('max divs: ' + maxDivs)
 
 })
 
@@ -82,7 +79,7 @@ prevButton.addEventListener('click', (event) => {
 
 nextButton.addEventListener('click', (event) => {
     prevButton.style.display = ''
-    if (slideIndex + 2 == maxDivs) {
+    if (slideIndex + 2 >= maxDivs) {
         nextButton.style.display = 'none'
     }
     changeSlides(1)
@@ -96,7 +93,6 @@ const changeSlides = (n) => {
 async function showSlides(n) {
     let slides = document.getElementsByClassName("mySlides")
     const curDiv = document.getElementById('listSlidePics' + n)
-
     for (let i = 0; i < slides.length; i++) {
         slides[i].style.display = 'none'
     }
@@ -104,11 +100,38 @@ async function showSlides(n) {
     if (!curDiv) {
         //get next set of pics
         skip += limit
-        let allUrl = baseUrl + skip + '/' + limit
+        let allUrl = baseUrl + skip + '/' + limit + '/' + size
         const allResp = await fetch(allUrl)
         const allData = await allResp.json()
         buildPics(allData, slideIndex)
     } else {
         curDiv.style.display = 'inline-flex'
     }
+}
+
+select.addEventListener('change', (event) =>{
+    const url = window.location.pathname + '?size=' + event.srcElement.value
+    window.location.href = url
+})
+
+async function getPicsData(size) {
+    let countUrl = '/images/countPics/' + size
+    let resp = await fetch(countUrl)
+    let countObj = await resp.json()
+    picsCount = countObj.count
+    maxDivs = Math.ceil(picsCount / limit)
+
+    if (maxDivs < 2) {
+        nextButton.style.display = 'none'
+        prevButton.style.display = 'none'
+    }
+
+    let allUrl = baseUrl + skip + '/' + limit + '/' + size
+    const allResp = await fetch(allUrl)
+    const allData = await allResp.json()
+
+    console.log('data:')
+    console.log(allData)
+
+    buildPics(allData, slideIndex)
 }
