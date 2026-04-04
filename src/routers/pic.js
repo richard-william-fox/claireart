@@ -39,7 +39,6 @@ router.get('/countPics/:size',  async (req, res) => {
         where.width = parseInt(sizes[0])
         where.height = parseInt(sizes[1])
     }
-    console.log(where)
     const count = await Pic.find(where).count()
 
     res.status(200).send({'count': count})

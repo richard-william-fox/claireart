@@ -1,11 +1,10 @@
 const win = window
 var userId = null
-const previewContent = document.querySelector('#imageContent')
+const imageContent = document.querySelector('#imageContent')
 const imgNameP = document.querySelector('#imageName')
 const imgWidthP = document.querySelector('#imageWidth')
 const imgHeightP = document.querySelector('#imageHeight')
 const imgPriceP = document.querySelector('#imagePrice')
-const toteCount = document.querySelector('#toteCount')
 const toteButton = document.querySelector('#addToTote')
 const buyButton = document.querySelector('#buyNow')
 const toteStatus = document.querySelector('#toteStatus')
@@ -15,10 +14,6 @@ let totePics
 win.addEventListener('load', async (event) => {
     //Check for current cart value
     totePics = getToteItems()
-    let count = 0
-    count = (totePics != null ? totePics.length : 0)
-
-    toteCount.innerHTML += count
 
     //Pull in file
     imageId = window.location.pathname.split('/')[2]
@@ -38,15 +33,22 @@ win.addEventListener('load', async (event) => {
     imgNode.id = 'pic_' + image._id
     imgNode.className = 'loader'
     imgNode.src = image.path
-    imgNode.style.width = '75%'
-    imgNode.style.height = height = '75%'
+    imgNode.style.width = '50%'
+    imgNode.style.height = '50%'
 
-    previewContent.appendChild(imgNode)
+    imageContent.appendChild(imgNode)
 
     imgNameP.innerHTML += ' ' + image.name
     imgWidthP.innerHTML += ' ' + image.width + '\'\''
     imgHeightP.innerHTML += ' ' + image.height + '\'\''
     imgPriceP.innerHTML += ' ' + image.price
+
+    setTimeout(() => {
+           imageContent.scrollIntoView({
+               behavior: "smooth",
+               block: "start",
+           })
+      }, 200)
 })
 
 toteButton.addEventListener('click', (event) => {

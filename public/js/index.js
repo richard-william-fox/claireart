@@ -1,6 +1,5 @@
 const win = window
 const indexContent = document.querySelector('#indexContent')
-const toteCount = document.querySelector('#toteCount')
 const prevButton = document.querySelector('#prevButton')
 const nextButton = document.querySelector('#nextButton')
 
@@ -27,18 +26,6 @@ win.addEventListener('load', async (event) => {
         imgNode.id = 'pic_' + data._id
         imgNode.src = data.thumbnail
     }
-
-    var count = 0
-    var totePics = getToteItems()
-    if (!totePics) {
-        setToteItem([])
-        count = 0
-    } else {
-        count = totePics.length
-    }
-
-    toteCount.innerHTML = 'View Tote: ' + count
-
 })
 
 function showSlides(n) {

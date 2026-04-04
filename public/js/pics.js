@@ -1,6 +1,5 @@
 const win = window
 const indexContent = document.querySelector('#indexContent')
-const toteCount = document.querySelector('#toteCount')
 const prevButton = document.querySelector('#prevButton')
 const nextButton = document.querySelector('#nextButton')
 const pics1 = document.querySelector('#listSlidePics1')
@@ -21,21 +20,6 @@ win.addEventListener('load', async (event) => {
     prevButton.style.display = 'none'
 
     getPicsData(size)
-
-    var count = 0
-    var totePics = getToteItems()
-    if (!totePics) {
-        setToteItem([])
-        count = 0
-    } else {
-        count = totePics.length
-    }
-
-    toteCount.innerHTML = 'View Tote: ' + count
-
-    console.log('index: ' + slideIndex)
-    console.log('max divs: ' + maxDivs)
-
 })
 
 function buildPics(data, number) {
@@ -129,9 +113,6 @@ async function getPicsData(size) {
     let allUrl = baseUrl + skip + '/' + limit + '/' + size
     const allResp = await fetch(allUrl)
     const allData = await allResp.json()
-
-    console.log('data:')
-    console.log(allData)
 
     buildPics(allData, slideIndex)
 }

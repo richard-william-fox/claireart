@@ -214,10 +214,11 @@ window.paypal
                       'Accept': 'application/json',
                       'Content-Type': 'application/json'
                   },
+                  body: JSON.stringify(orderData)
               })
           } else {
               //Some sort of error
-              internalError = 'Despite the error, payment has been processed. Do not attempt to purchase again. We will be in contact to alleviat4e the issue.'
+              internalError = 'Despite the error, payment has been processed. Do not attempt to purchase again. We will be in contact to alleviate the issue.'
               const picError = await fetch('/images/error', {
                   method: 'POST',
                   headers: {
