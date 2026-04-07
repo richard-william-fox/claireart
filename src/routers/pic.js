@@ -14,8 +14,9 @@ router.get('/indexPics', async(req, res) => {
 router.get('/listPics/:skip/:limit/:size', async (req, res) => {
     const size = req.params.size
     let where = {'sold': false, 'errored': false}
+
     if (size == 'Oval') {
-        where.name = '{ $regex: ".*Oval.*" }'
+        where.name = /Oval/
     } else if (size == 'All') {
     } else {
         const sizes = size.split('x')
@@ -32,7 +33,7 @@ router.get('/countPics/:size',  async (req, res) => {
     const size = req.params.size
     let where = {'sold': false, 'errored': false}
     if (size == 'Oval') {
-        where.name = '{ $regex: ".*Oval.*" }'
+        where.name = /Oval/
     } else if (size == 'All') {
     } else {
         const sizes = size.split('x')
