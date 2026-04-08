@@ -6,7 +6,7 @@ const tos =  async (req, res, next) => {
     const tos = req.cookies.tosAgreement
 
     if (!tos) {
-        return res.redirect('http://staging.tabletopsupercrew.net/tos') 
+        return res.redirect('/tos') 
     }
 
     next()

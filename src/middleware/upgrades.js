@@ -4,7 +4,7 @@ const upgrades = (req, res, next) => {
     }
     if (process.env.UPGRADES == true)
     {
-        res.redirect('http://staging.tabletopsupercrew.net/upgrades')
+        res.redirect('/upgrades')
     }
     next()
 }

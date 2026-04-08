@@ -66,5 +66,5 @@ buyButton.addEventListener('click', (event) => {
         setToteItem(totePics)
     }
 
-    window.location.replace('http://staging.tabletopsupercrew.net/viewTote')
+    window.location.replace('/viewTote')
 })
