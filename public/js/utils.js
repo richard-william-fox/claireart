@@ -8,10 +8,18 @@ const getToteItems = () => {
     return JSON.parse(localStorage.getItem('totePics'))
 }
 
+const setShippingInfo = (info) => {
+    localStorage.setItem('shippingInfo', JSON.stringify(info))
+}
+
+const getShippingInfo = () => {
+    return JSON.parse(localStorage.getItem('shippingInfo'))
+}
+
 window.addEventListener('load', () => {
     const path = window.location.pathname
 
-    if (!path.includes('picsDetail') && !path.includes('viewTote')) {
+    if (!path.includes('picsDetail') && !path.includes('viewTote') && !path.includes('checkout')) {
         let link = document.querySelector('#banner-' + path.slice(1))
 
         if (path == '/') {

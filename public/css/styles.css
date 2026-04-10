@@ -355,3 +355,7 @@ label {
 #aboutTitle {
     text-align: center;
 }
+
+#checkAddress {
+    font-size: 12px;
+}

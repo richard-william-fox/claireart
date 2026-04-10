@@ -1,14 +1,14 @@
 const toteContents = document.querySelector('#toteContents')
 const itemsTotal = document.querySelector('#itemsTotal')
-const shippingTotal = document.querySelector('#shippingTotal')
-const grandTotal = document.querySelector('#grandTotal')
 const viewTote = document.querySelector('#viewTote')
 const orderStatus = document.querySelector('#orderStatus')
 const errorStatus = document.querySelector('#errorStatus')
+const checkAddress = document.querySelector('#checkAddress')
 
 let totalPrice = 0
-let shippingPrice = 0
 let internalError = ''
+
+let name, street, street2, city, state, zip, country, shipping
 
 let tote
 
@@ -77,14 +77,65 @@ window.addEventListener('load', async (event) => {
 
         toteContents.appendChild(itemDiv)
 
-        updateTotal(totalPrice, shippingPrice)
+        updateTotal(totalPrice)
     })
 })
 
-const updateTotal = (tote, shipping) => {
+checkAddress.addEventListener('click', async () => {
+    name = document.querySelector('#name').value,
+    street = document.querySelector('#street').value,
+    street2 = document.querySelector('#street2').value,
+    city = document.querySelector('#city').value,
+    state = document.querySelector('#state').value,
+    zip = document.querySelector('#zip').value,
+    country = document.querySelector('#country').value
+
+    const addressTo = {
+        name: name,
+        street1: street,
+        street2: street2, 
+        city: city,
+        state: state,
+        zip: zip,
+        country: country
+    }
+
+    let parcels = []
+    tote.forEach((item) => {
+        const parcel = {
+            length: item.width.toString(),
+            width: item.height.toString(),
+            height: '1',
+            distanceUnit: 'in',
+            weight: '12',
+            massUnit: 'oz'
+        }
+        parcels.push(parcel)
+    })
+
+    const body = {
+        addressTo: addressTo,
+        parcels: parcels
+    }
+
+    const resp = await fetch('/shippo', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body)
+    })
+    const ship_data = await resp.json()
+    shipping = ship_data.shipping
+    addressTo.shipping = shipping
+
+    setShippingInfo(addressTo)
+
+    window.location.href = '/checkout'
+})
+
+const updateTotal = (tote) => {
     itemsTotal.innerHTML = 'Tote Total: $' + Number((tote).toFixed(2)) + ' USD'
-    shippingTotal.innerHTML = 'Shipping: $' + Number((shipping).toFixed(1)) + ' USD'
-    grandTotal.innerHTML = 'Final cost: $' + Number((tote + shipping).toFixed(1)) + ' USD'
 }
 
 const removeItem = (event) => {
@@ -102,173 +153,9 @@ const removeItem = (event) => {
     tote.forEach((pic) => {
         if (pic._id == id) {
             totalPrice = totalPrice - pic.price
-            updateTotal(totalPrice, shippingPrice)
+            updateTotal(totalPrice)
         }
     })
 
     tote = tote.filter(function(el) { return el._id != id })
-}
-
-window.paypal
-  .Buttons({
-    style: {
-      shape: "rect",
-      layout: "vertical",
-      color: "gold",
-      label: "paypal",
-    },
-    message: {
-      amount: 100,
-    },
-
-    async createOrder() {
-      try {
-        let cart = []
-        tote.forEach((pic) => {
-            let item = {}
-            item.id = pic._id
-            item.quantity = 1
-            item.price = pic.price
-            cart.push(item)
-        })
-        checkSoldErrored()
-        const response = await fetch("/api/orders", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            cart: cart
-          }),
-        });
-
-        const orderData = await response.json();
-
-        if (orderData.id) {
-          return orderData.id;
-        }
-        const errorDetail = orderData?.details?.[0];
-        const errorMessage = errorDetail
-          ? `${errorDetail.issue} ${errorDetail.description} (${orderData.debug_id})`
-          : JSON.stringify(orderData);
-
-        throw new Error(errorMessage);
-      } catch (error) {
-        resultMessage(`Could not initiate PayPal Checkout...<br><br>${error}`);
-      }
-    },
-
-    async onApprove(data, actions) {
-      try {
-        const response = await fetch(`/api/orders/${data.orderID}/capture`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        const orderData = await response.json();
-        // Three cases to handle:
-        //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
-        //   (2) Other non-recoverable errors -> Show a failure message
-        //   (3) Successful transaction -> Show confirmation or thank you message
-
-        const errorDetail = orderData?.details?.[0];
-
-        if (errorDetail?.issue === "INSTRUMENT_DECLINED") {
-          // (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
-          // recoverable state, per
-          // https://developer.paypal.com/docs/checkout/standard/customize/handle-funding-failures/
-          return actions.restart();
-        } else if (errorDetail) {
-          // (2) Other non-recoverable errors -> Show a failure message
-          throw new Error(`${errorDetail.description} (${orderData.debug_id})`);
-        } else if (!orderData.purchase_units) {
-          throw new Error(JSON.stringify(orderData));
-        } else {
-          // (3) Successful transaction -> Show confirmation or thank you message
-          // Or go to another URL:  actions.redirect('thank_you.html');
-          const transaction =
-            orderData?.purchase_units?.[0]?.payments?.captures?.[0] ||
-            orderData?.purchase_units?.[0]?.payments?.authorizations?.[0];
-          resultMessage(
-            `Transaction ${transaction.status}`
-          );
-
-          const newOrder = await fetch('/newOrder', {
-              method: 'POST',
-              headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(orderData)
-          })
-
-          if (newOrder.status == 201) {
-              //Order success, empty tote.
-              setToteItem([])
-              orderStatus.innerHTML = 'Order Complete! You will be receiving an email with shipping details soon.'
-              const res = await fetch('/sendOrderEmail/true', {
-                  method: 'POST',
-                  headers: {
-                      'Accept': 'application/json',
-                      'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify(orderData)
-              })
-          } else {
-              //Some sort of error
-              internalError = 'Despite the error, payment has been processed. Do not attempt to purchase again. We will be in contact to alleviate the issue.'
-              const picError = await fetch('/images/error', {
-                  method: 'POST',
-                  headers: {
-                      'Accept': 'application/json',
-                      'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify(orderData.purchase_units)
-              })
-              const res = await fetch('/sendOrderEmail/false', {
-                  method: 'POST',
-                  headers: {
-                      'Accept': 'application/json',
-                      'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify(orderData)
-              })
-          }
-        }
-      } catch (error) {
-        console.error('New order errored:')
-        console.error(error);
-        resultMessage(
-          `Sorry, your transaction could not be processed...<br><br>${error}\n\n` + internalError
-        );
-      }
-    },
-  })
-  .render("#paypal-button-container");
-
-// Example function to show a result to the user. Your site's UI library can be used instead.
-function resultMessage(message) {
-  const container = document.querySelector("#result-message");
-  container.innerHTML = message;
-}
-
-function checkSoldErrored() {
-    let message = ''
-    let error = false
-    tote.forEach((pic) => {
-        if (pic.sold || pic.errored) {
-            message += 'Picture ' + pic.name + ' has been sold while you were shopping or is in dispute. Please remove the item from your cart to proceed.\n'
-            message += 'Feel free to reach out to administration if you believe this is in error.\n'
-            //TODO: Hackey, switch to id
-            picDiv = document.getElementsByClassName('item_' + pic._id)[0]
-            picDiv.style.border = '1px solid red'
-            error = true
-        }
-    })
-    if (error) {
-        errorStatus.innerHTML = message
-        throw new Error(message)
-    }
 }
