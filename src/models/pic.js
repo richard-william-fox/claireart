@@ -32,6 +32,15 @@ const PicSchema = mongoose.Schema({
     errored: {
         type: Boolean,
         default: false
+    },
+    weight: {
+        type: Number,
+        required: true
+    },
+    weight_unit: {
+        type: String,
+        required: true,
+        default: 'oz'
     }
 })
 

@@ -1,8 +1,6 @@
 const toteContents = document.querySelector('#toteContents')
 const itemsTotal = document.querySelector('#itemsTotal')
 const viewTote = document.querySelector('#viewTote')
-const orderStatus = document.querySelector('#orderStatus')
-const errorStatus = document.querySelector('#errorStatus')
 const checkAddress = document.querySelector('#checkAddress')
 
 let totalPrice = 0
@@ -107,8 +105,8 @@ checkAddress.addEventListener('click', async () => {
             width: item.height.toString(),
             height: '1',
             distanceUnit: 'in',
-            weight: '12',
-            massUnit: 'oz'
+            weight: item.weight.toString(),
+            massUnit: item.weight_unit
         }
         parcels.push(parcel)
     })
@@ -126,7 +124,7 @@ checkAddress.addEventListener('click', async () => {
         body: JSON.stringify(body)
     })
     const ship_data = await resp.json()
-    shipping = ship_data.shipping
+    shipping = (Number(ship_data.shipping) + (totalPrice * .05) + .3).toString()
     addressTo.shipping = shipping
 
     setShippingInfo(addressTo)

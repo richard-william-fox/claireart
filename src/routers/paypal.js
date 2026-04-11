@@ -24,7 +24,7 @@ const client = new Client({
         oAuthClientSecret: PAYPAL_CLIENT_SECRET,
     },
     timeout: 0,
-    environment: Environment.Sandbox,
+    environment: Environment.Production,
     logging: {
         logLevel: LogLevel.Info,
         logRequest: {
@@ -44,12 +44,14 @@ const ordersController = new OrdersController(client)
  */
 const createOrder = async (tote, shippingInfo) => {
     let purchaseUnits = []
+    let value
     tote.forEach((product) => {
+        value = (Number(product.price) + Number(shippingInfo.shipping))
         let item = {}
         item['referenceId'] = product.id
         item['amount'] = {
             currencyCode: 'USD',
-            value: (Number(product.price) + Number(shippingInfo.shipping)).toString(),
+            value: value.toString(),
         }
         item['shipping'] = {
             name: {
@@ -90,6 +92,8 @@ const createOrder = async (tote, shippingInfo) => {
             httpStatusCode: response.statusCode,
         }
     } catch (error) {
+        console.error('Order error: ')
+        console.error(error)
         if (error instanceof ApiError) {
             // const { statusCode, headers } = error
             throw new Error(error.message)

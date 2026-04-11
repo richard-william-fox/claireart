@@ -359,3 +359,7 @@ label {
 #checkAddress {
     font-size: 12px;
 }
+
+#shippingAddress {
+    margin-left: 5px;
+}
