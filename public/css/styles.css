@@ -363,3 +363,25 @@ label {
 #shippingAddress {
     margin-left: 5px;
 }
+
+.cfButton {
+    width: auto;
+}
+
+@media (max-width: 800px) {
+    div[id*="listSlidePics"] a {
+	    padding-left: 1px;
+    }
+
+    div[id*="slidePics"] a {
+        padding-left: 1px;
+    }
+
+    #listContent img {
+        height: 40px;
+    }
+
+    #indexContent img {
+        height: 40px;
+    }
+}
