@@ -48,3 +48,14 @@ window.addEventListener('load', () => {
 
     toteCount.innerHTML = 'View Tote: ' + count
 })
+
+/* Toggle between showing and hiding the navigation menu links when the user clicks on the hamburger menu / bar icon */
+function displayMobileMenu(el) {
+    el.classList.toggle('change')
+    var Menu = document.querySelector('#Menu')
+    if (Menu.style.display === 'none') {
+        Menu.style.display = 'block'
+    } else {
+        Menu.style.display = 'none'
+    }
+}
