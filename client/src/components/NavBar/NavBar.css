@@ -1,0 +1,12 @@
+#navBanner {
+    width: 100%;
+}
+
+#navLinks {
+    float: left;
+}
+
+#banner a {
+    padding-right: 10px;
+    color: var(--color-blue-600);
+}

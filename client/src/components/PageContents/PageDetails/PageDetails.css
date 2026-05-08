@@ -1,0 +1,29 @@
+#imageContent img {
+    display: flex;
+    width: 50%;
+    height: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#imageDetails {
+    border: solid;
+}
+
+#detailButtons {
+    display: inline-flex;
+    margin-top: 10px;
+}
+
+#detailButtons button {
+    margin-right: 50px;
+}
+
+.cfButton:disabled,
+button[disabled] {
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
+}

@@ -1,0 +1,48 @@
+#previewContent {
+    border: solid;
+    padding-left: 5px;
+    padding-right: 5px;
+    display: inline-flex;
+    justify-content: space-between;
+    width: 75%;
+    margin-left: 12.5%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+div[class*='item_'] {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#previewContent img {
+    border: solid;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100px;
+    height: 100px;
+}
+
+div[class*='imgP_'] {
+    margin-left: 10px;
+    line-height: 0.75;
+}
+
+.removeLink {
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+#shippingAddress {
+    margin-left: 5px;
+    width: 50%;
+}
+
+#checkAddress {
+    padding-top: 5px;
+    margin-bottom: 10px;
+}
+
+#itemContainer {
+    display: inline-flex;
+}

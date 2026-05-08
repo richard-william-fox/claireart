@@ -1,0 +1,12 @@
+#headerImg {
+    width: auto;
+    border: solid;
+}
+
+#headerImg img {
+    width: 100%;
+}
+
+#banner {
+    display: flex;
+}

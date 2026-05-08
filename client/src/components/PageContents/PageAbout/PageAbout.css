@@ -1,0 +1,13 @@
+#aboutContent {
+    width: 75%;
+    margin-left: 12.5%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: solid;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#aboutTitle {
+    text-align: center;
+}

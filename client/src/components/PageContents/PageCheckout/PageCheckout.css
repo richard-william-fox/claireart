@@ -1,0 +1,18 @@
+#paypalContainer {
+    width: 25%;
+    margin-left: auto;
+    margin-right: auto;
+    border: solid black;
+    background-color: white;
+}
+
+div[id*='item_'] {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.ppText {
+    font-weight: bold;
+    color: purple;
+    font-size: 20px;
+}
