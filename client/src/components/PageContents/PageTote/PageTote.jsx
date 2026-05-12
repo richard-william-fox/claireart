@@ -35,7 +35,7 @@ const PageTote = () => {
             parcels.push(parcel)
         })
 
-        let shippoUrl = process.env.REACT_APP_API_URL + '/shippo'
+        let shippoUrl = '/shippo'
         let resp = await axios.post(shippoUrl, {
             method: 'POST',
             headers: {

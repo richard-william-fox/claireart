@@ -17,7 +17,7 @@ import Footer from '../Footer/Footer'
 
 const PageContainer = ({ pageName }) => {
     const initialOptions = {
-        'client-id': process.env.REACT_APP_PAYPAL_CLIENT_ID,
+        'client-id': import.meta.env.VITE_PAYPAL_CLIENT_ID,
         currency: 'USD',
         intent: 'capture',
         components: 'buttons',

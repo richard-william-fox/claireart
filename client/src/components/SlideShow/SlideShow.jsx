@@ -9,8 +9,8 @@ const SlideShow = (props) => {
     let limit = 5
     let picsCount = 0
     let maxDivs = 0
-    let baseUrl = process.env.REACT_APP_API_URL + '/images/'
-    let countUrl = process.env.REACT_APP_API_URL + '/images/countPics'
+    let baseUrl = '/images/'
+    let countUrl = '/images/countPics'
 
     switch (props.url) {
         case 'list':

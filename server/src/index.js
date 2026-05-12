@@ -38,6 +38,8 @@ hbs.registerPartials(partialsPath)
 //Setup static directory to serve
 app.use(express.static(publicDir))
 app.use(express.json())
+//React frontend
+// Source - https://stackoverflow.com/a/44684492
 
 app.get('/upgrades', (req, res) => {
     res.render('upgrades', {
@@ -55,6 +57,13 @@ app.get('/upgrades', (req, res) => {
     }
     return res.status(500).send({})
 })*/
+
+app.use(express.static(path.join(__dirname, '../../client/dist')))
+app.use('/uploads', express.static(path.join(__dirname, '../../client/public/uploads')))
+
+app.get('/*splat', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../client/dist', 'index.html'))
+})
 
 server.listen(port, () => {
     console.log('Server is up on port ' + port + '.')

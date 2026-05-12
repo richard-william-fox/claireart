@@ -98,7 +98,7 @@ const PageCheckout = () => {
     const onApproveOrder = async (data, actions) => {
         const capture = await actions.order.capture()
         const newOrder = await axios.post(
-            process.env.REACT_APP_API_URL + '/newOrder',
+            '/newOrder',
             {
                 headers: {
                     Accept: 'application/json',
@@ -112,7 +112,7 @@ const PageCheckout = () => {
         if (newOrder.status == 201) {
             //Order success, empty tote.
             const res = await axios.post(
-                process.env.REACT_APP_API_URL + 'sendOrderEmail/true',
+                'sendOrderEmail/true',
                 {
                     headers: {
                         Accept: 'application/json',
@@ -126,7 +126,7 @@ const PageCheckout = () => {
             internalError =
                 'Despite the error, payment has been processed. Do not attempt to purchase again. We will be in contact to alleviate the issue.'
             const picError = await axios.post(
-                process.env.REACT_APP_API_URL + '/images/error',
+                '/images/error',
                 {
                     headers: {
                         Accept: 'application/json',
@@ -136,7 +136,7 @@ const PageCheckout = () => {
                 },
             )
             const res = await axios.post(
-                process.env.REACT_APP_API_URL + '/sendOrderEmail/false',
+                '/sendOrderEmail/false',
                 {
                     headers: {
                         Accept: 'application/json',
